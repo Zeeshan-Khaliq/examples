@@ -134,3 +134,5 @@ LLMs/confluence_app/chroma_db/*
 
 ## Venvs in the folder
 *.venv*
+
+.vscode
