@@ -1,2 +1,3 @@
 langchain
 markdown2
+pytest

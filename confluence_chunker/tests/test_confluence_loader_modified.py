@@ -37,7 +37,7 @@ def test_confluence_loader():
     text_splitter = MarkdownTextSplitter(chunk_size=chunk_size, chunk_overlap=0)
 
     chunker = ConfluenceMarkdownChunker(markdown_header_splitter=header_splitter, markdown_text_splitter=text_splitter)
-    f = chunker.chunker_2(documents)
+    f = chunker.chunker(documents)
     for d in f:
         print(":"*10)
         #print(d.page_content)
