@@ -1,14 +1,15 @@
+
+import pytest
+
 from markdown2 import markdown
-import os
-
-from splitters_confluence import ConfluenceMarkdownChunker
 from langchain_text_splitters.markdown import MarkdownTextSplitter, MarkdownHeaderTextSplitter
-
 from langchain.schema import Document
 
+from splitters_confluence import ConfluenceMarkdownChunker
 
-def test_confluence_loader():
-    md_string = """
+@pytest.fixture
+def md_string():
+    _string = """
     My name is zeeshan and this is just the starting string.
 
     ## Heading2 - 1
@@ -25,25 +26,32 @@ def test_confluence_loader():
 
     This is heading3 text
     """
+    return _string
+
+@pytest.fixture
+def header_splitter():
+    return MarkdownHeaderTextSplitter(
+        headers_to_split_on=[('###', "level_3"), ("##", "level_2")]
+    )
+
+@pytest.fixture
+def text_splitter():
+    return MarkdownTextSplitter(chunk_size=100, chunk_overlap=0)
+
+
+def test_confluence_loader(md_string, header_splitter, text_splitter):
+    
     md = markdown(md_string).strip("<pre><code>").split("</code></pre>")[0]
     documents = [
         Document(page_content=md, metadata={"title": "Page1"})
     ]
     
-    chunk_size = 100
-    header_splitter = MarkdownHeaderTextSplitter(
-        headers_to_split_on=[('###', "level_3"), ("##", "level_2")]
-    )
-    text_splitter = MarkdownTextSplitter(chunk_size=chunk_size, chunk_overlap=0)
-
     chunker = ConfluenceMarkdownChunker(markdown_header_splitter=header_splitter, markdown_text_splitter=text_splitter)
     f = chunker.chunker(documents)
     for d in f:
         print(":"*10)
-        #print(d.page_content)
-        #print(d.metadata)
         print(d)
-        #print(type(d))
+
         
 
 
