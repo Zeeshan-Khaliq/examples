@@ -5,7 +5,7 @@ from typing import (
     List,
 )
 from langchain.schema import Document
-from langchain.text_splitter import CharacterTextSplitter
+from langchain.text_splitter import CharacterTextSplitter, RecursiveCharacterTextSplitter
 
 from langchain_text_splitters import MarkdownHeaderTextSplitter, MarkdownTextSplitter
 import logging
@@ -70,7 +70,7 @@ class ConfluenceMarkdownChunker:
                             )
                         )
             
-            splitted = self._recursively_split_docs(
+            splitted = self._recursiveTextSplitter( #self._recursively_split_docs(
                     text_documents, doc.metadata, 
                     self._markdown_text_splitter._chunk_size, 
                     list()
@@ -95,6 +95,15 @@ class ConfluenceMarkdownChunker:
                 self._recursively_split_docs(new_docs, page_metadata, chunk_size, all_docs)
         
         return all_docs
+    
+    def _recursiveTextSplitter(self, documents, page_metadata, chunk_size, all_docs):
+        splitter = RecursiveCharacterTextSplitter()
+        splitted_docs = splitter.split_documents(documents)
+
+        print("+"*20)
+        print(splitted_docs)
+    
+        return splitted_docs
             
     def _extract_text_tables_from_doc(self, doc: str):
 
