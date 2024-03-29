@@ -70,11 +70,11 @@ class ConfluenceMarkdownChunker:
                             )
                         )
             
-            splitted = self._recursiveTextSplitter( #self._recursively_split_docs(
-                    text_documents, doc.metadata, 
-                    self._markdown_text_splitter._chunk_size, 
-                    list()
-                )
+            splitted = self._recursively_split_docs( # self._recursiveTextSplitter( #self._recursively_split_docs(
+                text_documents, doc.metadata, 
+                self._markdown_text_splitter._chunk_size, 
+                list()
+            )
             final.extend(splitted)
             final.extend(table_documents)
         
@@ -96,14 +96,12 @@ class ConfluenceMarkdownChunker:
         
         return all_docs
     
-    def _recursiveTextSplitter(self, documents, page_metadata, chunk_size, all_docs):
-        splitter = RecursiveCharacterTextSplitter()
-        splitted_docs = splitter.split_documents(documents)
-
-        print("+"*20)
-        print(splitted_docs)
-    
-        return splitted_docs
+    #def _recursiveTextSplitter(self, documents, page_metadata, chunk_size, all_docs):
+    #    splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=10)
+    #    splitted_docs = splitter.split_documents(documents)
+    #    print("+"*20)
+    #    print(splitted_docs)
+    #    return splitted_docs
             
     def _extract_text_tables_from_doc(self, doc: str):
 
