@@ -1,0 +1,7 @@
+{
+    "python.testing.pytestArgs": [
+        "confluence_chunker"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}
