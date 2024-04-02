@@ -38,14 +38,19 @@ class ConfluenceMarkdownChunker:
         for doc in documents:
             docs_splitted_by_header = self._markdown_header_splitter.split_text(doc.page_content)
                 
+            #for item in docs_splitted_by_header:
+            #    print(item.page_content[:20])
+            #    print(item.metadata)
+            #    print("+"*10)
+            
             text_documents = []
             table_documents = []
             for header_doc in docs_splitted_by_header:
 
-                text, tables = self._extract_text_tables_from_doc(header_doc)
+                text, tables = self._separate_text_tables(header_doc)
 
                 if header_doc.metadata:
-                    subtitle = list(header_doc.metadata.values())[0]
+                    subtitle = "/".join(list(header_doc.metadata.values()))
                 else:
                     subtitle = doc.metadata["title"]
                 
@@ -60,7 +65,7 @@ class ConfluenceMarkdownChunker:
                     )
 
                 if tables:
-                    metadata = deepcopy(doc.metadata)
+                    metadata = doc.metadata.copy()
                     metadata["sub-title"] = subtitle
                     for table in tables:
                         table_documents.append(
@@ -103,7 +108,7 @@ class ConfluenceMarkdownChunker:
     #    print(splitted_docs)
     #    return splitted_docs
             
-    def _extract_text_tables_from_doc(self, doc: str):
+    def _separate_text_tables(self, doc: str):
 
         table_chunks = {}
         text_chunks  = []

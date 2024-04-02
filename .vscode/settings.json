@@ -3,5 +3,22 @@
         "confluence_chunker"
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": [
+                    "entity.name.function",
+                    "support.function",
+                    "variable.function",
+                    "entity.name.function-call",
+                    "meta.function-call.generic"
+                ],
+                "settings": {
+                    "foreground": "#61b1ce"  // Replace with the color of your choice
+                }
+            }
+        ]
+    }
 }
